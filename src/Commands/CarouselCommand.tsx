@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { $createCarouseNode, Carousel, IImage } from "../Nodes/CarouselNode";
 import ImageModelComponent from "../Components/ImageModelComponent";
 import { FaImage } from "react-icons/fa";
-import { AiFillPlusCircle,AiOutlineBold,AiOutlineItalic,AiOutlineAlignCenter,AiOutlineUndo,AiOutlineRedo } from "react-icons/ai";
+import { AiFillPlusCircle,AiOutlineBold,AiOutlineItalic,AiOutlineAlignCenter,AiOutlineUndo,AiOutlineRedo,AiFillMinusCircle } from "react-icons/ai";
 import './carouselStyles.css'
 
 export const INSERT_CAROUSEL_COMMAND = createCommand();
@@ -12,9 +12,9 @@ export const INSERT_CAROUSEL_COMMAND = createCommand();
 export default function CarouselPlugin(){
 
     const [editor] = useLexicalComposerContext();
-    const [imageSize,setImageSize] = useState(0)
+    const [imageAdd,setImageAdd] = useState(false)
     const [imageSrc,setImageSrc]  = useState([]);
-    const [imageComponent,setImageComponent] = useState([])
+
     
     useEffect(() => {
         if(!editor.hasNodes([Carousel])){
@@ -30,12 +30,10 @@ export default function CarouselPlugin(){
             },COMMAND_PRIORITY_EDITOR)
     },[editor]);
 
-    useEffect(() => addImageComponent(),[imageSize]);
+    useEffect(() => console.log(imageSrc),[imageSrc])
 
-    function addImage(){
-    
-        setImageSize((imageSize) => imageSize+1);
-
+    function addImage(){    
+        setImageAdd(!imageAdd);
     }
 
     function addImageToArray(newArray:{src:string,size:string}){
@@ -44,26 +42,18 @@ export default function CarouselPlugin(){
 
     function removeImage(id:number){
         const newSrc = [...imageSrc];
-        const imgncomp = [...imageComponent];
-
         newSrc.splice(id,1);
         setImageSrc(newSrc);
 
-        imgncomp.splice(id,1);
-        setImageComponent(imgncomp);
-        setImageSize((imageSize) => imageSize-1);
-
     }
-    function addImageComponent(){
-        const newImgComp = [...imageComponent];
-        for(let i=0;i<imageSize;i++){
-            newImgComp.push(<ImageModelComponent addImage = {addImageToArray} id={imageSize} removeImage={removeImage}  />);
-            setImageComponent(newImgComp);
-        }
-    }
-
     function createnewCarouselNode(){
-        editor.dispatchCommand(INSERT_CAROUSEL_COMMAND,imageSrc);
+        console.log(imageSrc);
+        if(imageSrc.length >= 1) {
+            editor.dispatchCommand(INSERT_CAROUSEL_COMMAND,imageSrc);
+        }
+        else {
+            alert("Please Insert 1 Image Atleast")
+        }
         
     }
 
@@ -101,12 +91,19 @@ export default function CarouselPlugin(){
             <button onClick={() => {editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "center");}} className="btn">
                  <AiOutlineAlignCenter />
             </button>
-            <button onClick={addImage} className="btn"><AiFillPlusCircle /> </button>
+            <button onClick={() => addImage()} className="btn"><AiFillPlusCircle /> </button>
             <button onClick={() => createnewCarouselNode()} className="btn"><FaImage /> </button>
            
         </div>
         <div className="imageInputs">
-            {imageSize > 0 && imageComponent.map(elem => elem)}
+            {imageAdd && <ImageModelComponent addImage = {addImageToArray} id={1} removeImage={removeImage}  />}
+            <div>
+                {imageSrc.map((img,index )=> 
+                <div>{index+1}. {img.src} 
+                    <button onClick={() => removeImage(index) } className="btn"><AiFillMinusCircle /></button> 
+                </div>)
+                }
+            </div>
         </div>
     </div>
     );

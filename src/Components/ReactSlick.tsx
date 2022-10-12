@@ -12,7 +12,6 @@ export default class SimpleSlider extends Component<ISlickComponent> {
 
     }
   render() {
-    console.log(this.props)
     const settings = {
       dots: true,
       infinite: true,
@@ -26,7 +25,7 @@ export default class SimpleSlider extends Component<ISlickComponent> {
         <Slider {...settings}>
           {this.props.data1.map(link => (
             <div>
-                <img src={link.src} alt="Image" width={link.size} />
+                <img src={link.src} alt="Image" width={link.size} height={link.size} />
             </div>
           ))}
         </Slider>

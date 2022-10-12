@@ -1,4 +1,4 @@
-import { DecoratorNode } from "lexical";
+import { DecoratorNode, EditorConfig } from "lexical";
 import SimpleSlider from "../Components/ReactSlick";
 
 export interface IImage{
@@ -29,9 +29,12 @@ export class Carousel extends DecoratorNode<IImage[]>{
         console.log("Dom Created")
         return document.createElement('div');
     }
+
+    updateDOM(_prevNode: unknown, _dom: HTMLElement, _config: EditorConfig): boolean {
+        return true;
+    }
     //@ts-ignore
     decorate(){
-        console.log(this.__src);
         if(this.__images.length === 1 ){
             return <div className="slickComponent"><img src={this.__images[0].src} width={this.__images[0].size} alt="editorimage"/></div>
         }

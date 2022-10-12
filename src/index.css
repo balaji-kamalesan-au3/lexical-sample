@@ -48,12 +48,13 @@ code {
   justify-content: center;
 }
 .slick-slider{
-  width: 300px;
+  min-width: 300px;
+  max-width: 500px;
   text-align: center;
 }
 
 .content-editable{
-  height: 20rem;
+  min-height: 20rem;
 }
 
 .EditorHeading{
