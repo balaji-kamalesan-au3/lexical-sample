@@ -1,8 +1,13 @@
 import  { Component } from "react";
 import Slider from "react-slick";
+import { IImage } from "../Nodes/CarouselNode";
 
-export default class SimpleSlider extends Component{
-    constructor(props:{}){
+interface ISlickComponent{
+  data1 : IImage[]
+}
+
+export default class SimpleSlider extends Component<ISlickComponent> {
+    constructor(props:ISlickComponent){
         super(props);
 
     }

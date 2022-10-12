@@ -1,5 +1,4 @@
 import { DecoratorNode } from "lexical";
-import { scryRenderedComponentsWithType } from "react-dom/test-utils";
 import SimpleSlider from "../Components/ReactSlick";
 
 export interface IImage{
@@ -30,11 +29,11 @@ export class Carousel extends DecoratorNode<IImage[]>{
         console.log("Dom Created")
         return document.createElement('div');
     }
-
+    //@ts-ignore
     decorate(){
         console.log(this.__src);
         if(this.__images.length === 1 ){
-            return <div className="slickComponent"><img src={this.__images[0].src} width={this.__images[0].size} /></div>
+            return <div className="slickComponent"><img src={this.__images[0].src} width={this.__images[0].size} alt="editorimage"/></div>
         }
         return <SimpleSlider data1= {this.__images} />
     }

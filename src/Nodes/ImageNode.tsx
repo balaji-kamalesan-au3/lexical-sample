@@ -27,7 +27,7 @@ export class ImageNode extends DecoratorNode<ImageNode>{
         console.log("Dom Created")
         return document.createElement('div');
     }
-
+    //@ts-ignore
     decorate(){
         return <img src={this.__src} width={this.__size} />
     }

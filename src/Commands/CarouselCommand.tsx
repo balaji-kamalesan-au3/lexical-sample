@@ -1,4 +1,4 @@
-import { $getSelection, $insertNodes, $isRangeSelection, $isRootNode, COMMAND_PRIORITY_EDITOR, createCommand, FORMAT_ELEMENT_COMMAND, FORMAT_TEXT_COMMAND, REDO_COMMAND, UNDO_COMMAND } from "lexical";
+import {$insertNodes, COMMAND_PRIORITY_EDITOR, createCommand, FORMAT_ELEMENT_COMMAND, FORMAT_TEXT_COMMAND, REDO_COMMAND, UNDO_COMMAND } from "lexical";
 import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext';
 import { useEffect, useState } from "react";
 import { $createCarouseNode, Carousel, IImage } from "../Nodes/CarouselNode";
@@ -66,13 +66,17 @@ export default function CarouselPlugin(){
         editor.dispatchCommand(INSERT_CAROUSEL_COMMAND,imageSrc);
         
     }
+
+    function returnull(){
+        return;
+    }
     return (
     <div className="imageInputContainer">
        
         <div className="imageButtonContainer">
         <button
         onClick={() => {
-          editor.dispatchCommand(UNDO_COMMAND);
+          editor.dispatchCommand(UNDO_COMMAND,returnull());
         }}
         className="btn"
         aria-label="Undo"
@@ -81,7 +85,7 @@ export default function CarouselPlugin(){
       </button>
       <button
         onClick={() => {
-          editor.dispatchCommand(REDO_COMMAND);
+          editor.dispatchCommand(REDO_COMMAND,returnull());
         }}
         className="btn"
         aria-label="Redo"
